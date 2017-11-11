@@ -3,6 +3,9 @@ package com.example.administrator.mycamera;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -11,8 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
+    private ImageView img, img2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-
+        img = (ImageView)findViewById(R.id.img);
+        img2 = (ImageView)findViewById(R.id.img2);
     }
 
     public void test1(View view) {
@@ -62,9 +72,31 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1){
             if (resultCode == RESULT_OK){
                 Log.i("brad", "OK");
+                takePic1(data);
             }else if(resultCode == RESULT_CANCELED){
                 Log.i("brad", "XX");
             }
         }
     }
+
+    private void takePic1(Intent data){
+        Bitmap bmp  = (Bitmap)data.getExtras().get("data");
+        img.setImageBitmap(bmp);
+
+        try {
+            File root = Environment.getExternalStorageDirectory();
+            File save = new File(root, "brad.jpg");
+            FileOutputStream fout = new FileOutputStream(save);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+
+            FileInputStream fin = new FileInputStream(save);
+            Bitmap bmp2 = BitmapFactory.decodeStream(fin);
+            img2.setImageBitmap(bmp2);
+
+        }catch (Exception ee){
+
+        }
+
+    }
+
 }
