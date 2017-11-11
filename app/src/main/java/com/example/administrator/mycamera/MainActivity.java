@@ -74,7 +74,10 @@ public class MainActivity extends AppCompatActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = null;
         try {
-            photoFile = createImageFile();
+            //photoFile = createImageFile();
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            photoFile = new File(
+                    storageDir, "brad4.jpg");
             Uri photoURI = FileProvider.getUriForFile(this,
                     "com.example.administrator.mycamera.fileprovider",
                     photoFile);
