@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test3(View view) {
+
     }
 
     @Override
