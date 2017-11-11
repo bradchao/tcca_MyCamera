@@ -64,8 +64,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
     public void test2(View view) {
+        Log.i("brad", "test2");
         File root = Environment.getExternalStorageDirectory();
-        File save = new File(root, "brad2.jpg");
+        File dcim = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File save = new File(dcim, "brad.jpg");
         outputFileUri = Uri.fromFile(save);
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -93,7 +95,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void takePic2() {
-
+        File root = Environment.getExternalStorageDirectory();
+        File save = new File(root, "brad2.jpg");
+        Bitmap bmp = BitmapFactory.decodeFile(save.getAbsolutePath());
+        img.setImageBitmap(bmp);
 
     }
 
