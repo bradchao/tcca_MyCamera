@@ -1,6 +1,10 @@
 package com.example.administrator.mycamera;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +35,7 @@ public class PreviewActivity extends AppCompatActivity {
         surfaceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                takPic();
             }
         });
     }
@@ -84,6 +88,49 @@ public class PreviewActivity extends AppCompatActivity {
         }else{
             Log.i("brad", "camera null");
         }
+    }
+
+    private void takPic(){
+        camera.autoFocus(new Camera.AutoFocusCallback() {
+            @Override
+            public void onAutoFocus(boolean b, Camera camera) {
+                if (b){
+                    camera.takePicture(new Camera.ShutterCallback() {
+                                           @Override
+                                           public void onShutter() {
+
+                                           }
+                                       },
+                            new Camera.PictureCallback() {
+                                @Override
+                                public void onPictureTaken(byte[] bytes, Camera camera) {
+
+                                }
+                            },
+                            new Camera.PictureCallback() {
+                                @Override
+                                public void onPictureTaken(byte[] bytes, Camera camera) {
+                                    afterTakPic(bytes);
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    private void afterTakPic(byte[] data){
+        camera.stopPreview();
+
+        Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+
+        Matrix matrix = new Matrix();
+        matrix.setRotate(90);
+        bmp = Bitmap.createBitmap(bmp,0,0,bmp.getWidth(),bmp.getHeight(),matrix,false);
+
+        Intent it = new Intent();
+        it.putExtra("bmp", bmp);
+        setResult(RESULT_OK, it);
+        finish();
     }
 
 

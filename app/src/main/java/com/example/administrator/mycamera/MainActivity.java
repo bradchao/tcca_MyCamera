@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void test3(View view) {
         Intent it = new Intent(this, PreviewActivity.class);
-        startActivity(it);
+        startActivityForResult(it,3);
     }
 
     @Override
@@ -124,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK){
                 takePic2();
             }
+        }else if(requestCode == 3 && resultCode == RESULT_OK){
+            Bitmap bmp = (Bitmap) data.getParcelableExtra("bmp");
+            img.setImageBitmap(bmp);
         }
     }
 
