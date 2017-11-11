@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test3(View view) {
-
+        Intent it = new Intent(this, PreviewActivity.class);
+        startActivity(it);
     }
 
     @Override
