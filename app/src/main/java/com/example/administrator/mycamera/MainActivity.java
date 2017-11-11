@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView img, img2;
+    private Uri outputFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
     public void test2(View view) {
+        File root = Environment.getExternalStorageDirectory();
+        File save = new File(root, "brad2.jpg");
+        outputFileUri = Uri.fromFile(save);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        startActivityForResult(intent, 2);
     }
     public void test3(View view) {
     }
@@ -76,7 +85,16 @@ public class MainActivity extends AppCompatActivity {
             }else if(resultCode == RESULT_CANCELED){
                 Log.i("brad", "XX");
             }
+        }else if (requestCode == 2){
+            if (resultCode == RESULT_OK){
+                takePic2();
+            }
         }
+    }
+
+    private void takePic2() {
+
+
     }
 
     private void takePic1(Intent data){
