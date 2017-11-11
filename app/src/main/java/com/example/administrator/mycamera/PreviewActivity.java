@@ -60,6 +60,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void initCamera()  {
         camera = Camera.open();
+        camera.setDisplayOrientation(90);
         if (camera != null){
             Camera.Parameters parameters = camera.getParameters();
 
@@ -74,6 +75,7 @@ public class PreviewActivity extends AppCompatActivity {
 
             try {
                 camera.setPreviewDisplay(surfaceHolder);
+                camera.startPreview();
             }catch (Exception e){
                 Log.i("brad", "ERR1:" + e.toString());
             }
